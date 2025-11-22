@@ -1,0 +1,8 @@
+{
+  "name": "Co-Watch",
+  "description": "A remote movie watching web app with screen sharing and video chat.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
