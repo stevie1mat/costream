@@ -90,19 +90,12 @@ export const useWebRTC = ({ roomId, isHost }: WebRTCProps) => {
       try {
         if (data.type === 'offer') {
           await pc.setRemoteDescription(new RTCSessionDescription(data.payload));
-          
-          // Add local tracks to peer connection if not already added
+          // Always add local tracks before answering (prevents missing remote stream)
           if (localStreamRef.current) {
-             localStreamRef.current.getTracks().forEach(track => {
-               // Check if track is already added to avoid duplication
-               const senders = pc.getSenders();
-               const isTrackAdded = senders.some(sender => sender.track === track);
-               if (!isTrackAdded) {
-                 pc.addTrack(track, localStreamRef.current!);
-               }
-             });
+            localStreamRef.current.getTracks().forEach(track => {
+              pc.addTrack(track, localStreamRef.current!);
+            });
           }
-
           const answer = await pc.createAnswer();
           await pc.setLocalDescription(answer);
           socket.emit('signal', { roomId, type: 'answer', payload: answer });
