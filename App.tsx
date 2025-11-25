@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lobby } from './components/Lobby';
+import { LandingPage } from './components/LandingPage';
 import { Room } from './components/Room';
 import { disconnectSocket } from './services/socket';
 
@@ -19,7 +19,7 @@ const App: React.FC = () => {
   };
 
   if (!roomId) {
-    return <Lobby onJoin={handleJoin} />;
+    return <LandingPage onJoin={handleJoin} />;
   }
 
   return <Room roomId={roomId} isHost={isHost} onLeave={handleLeave} />;
